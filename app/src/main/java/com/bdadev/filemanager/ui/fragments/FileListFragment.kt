@@ -8,14 +8,17 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import com.bdadev.filemanager.R
 import com.bdadev.filemanager.application.application
+import com.bdadev.filemanager.dialog.ShowRequestAllFilesAccessRationaleDialogFragment
 import com.bdadev.filemanager.dialog.ShowRequestStoragePermissionRationaleDialogFragment
 import com.bdadev.filemanager.util.ShowRequestStoragePermissionInSettingsRationaleDialogFragment
 import com.bdadev.filemanager.util.checkSelfPermission
@@ -24,7 +27,9 @@ import com.bdadev.filemanager.util.viewModels
 import com.bdadev.filemanager.view_model.FileListViewModel
 
 class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialogFragment.Listener,
-    ShowRequestStoragePermissionInSettingsRationaleDialogFragment.Listener {
+    ShowRequestStoragePermissionInSettingsRationaleDialogFragment.Listener,
+    ShowRequestAllFilesAccessRationaleDialogFragment.Listener
+{
     private val viewModel by viewModels { { FileListViewModel() } }
     private val requestStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(), this::onRequestStoragePermissionResult
@@ -32,6 +37,9 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
     private val requestStoragePermissionInSettingsLauncher = registerForActivityResult(
         RequestStoragePermissionInSettingsContract(),
         this::onRequestStoragePermissionInSettingsResult
+    )
+    private val requestAllFilesAccessLauncher = registerForActivityResult(
+        RequestAllFilesAccessContract(), this::onRequestAllFilesAccessResult
     )
 
     override fun onCreateView(
@@ -52,8 +60,8 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-//                ShowRequestAllFilesAccessRationaleDialogFragment.show(this)
-//                viewModel.isStorageAccessRequested = true
+                ShowRequestAllFilesAccessRationaleDialogFragment.show(this)
+                viewModel.isStorageAccessRequested = true
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -94,7 +102,26 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
             ) == PackageManager.PERMISSION_GRANTED
     }
 
+    private class RequestAllFilesAccessContract : ActivityResultContract<Unit, Boolean>() {
+        @RequiresApi(Build.VERSION_CODES.R)
+        override fun createIntent(context: Context, input: Unit): Intent =
+            Intent(
+                android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                Uri.fromParts("package", context.packageName, null)
+            )
+
+        @RequiresApi(Build.VERSION_CODES.R)
+        override fun parseResult(resultCode: Int, intent: Intent?): Boolean =
+            Environment.isExternalStorageManager()
+    }
     private fun onRequestStoragePermissionInSettingsResult(isGranted: Boolean) {
+        if (isGranted) {
+            viewModel.isStorageAccessRequested = false
+//            refresh()
+        }
+    }
+
+    private fun onRequestAllFilesAccessResult(isGranted: Boolean) {
         if (isGranted) {
             viewModel.isStorageAccessRequested = false
 //            refresh()
@@ -111,5 +138,9 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
         ) {
             ShowRequestStoragePermissionInSettingsRationaleDialogFragment.show(this)
         }
+    }
+
+    override fun requestAllFilesAccess() {
+        requestAllFilesAccessLauncher.launch(Unit)
     }
 }

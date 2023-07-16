@@ -28,5 +28,6 @@ class ShowRequestStoragePermissionRationaleDialogFragment : AppCompatDialogFragm
 
     interface Listener {
         fun requestStoragePermission()
+
     }
 }
