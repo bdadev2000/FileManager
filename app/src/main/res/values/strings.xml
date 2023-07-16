@@ -2,4 +2,6 @@
     <string name="app_name">FileManager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="storage_permission_rationale_message">App needs permission to access files. Please click “ALLOW” in the upcoming system dialog.</string>
+    <string name="open_settings">App needs permission to access files. Please click “ALLOW” in the upcoming system dialog.</string>
 </resources>

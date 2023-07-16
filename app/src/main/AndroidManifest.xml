@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="30" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FileManager"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:requestLegacyExternalStorage="true"
+        >
 
         <activity
             android:name=".ui.activities.ListFileActivity"
@@ -22,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".application.AppProvider"
+            android:authorities="@string/app_provider_authority"
+            android:exported="false" />
     </application>
 
 </manifest>
