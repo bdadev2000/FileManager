@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+            <include layout="@layout/file_list_fragment_app_bar_include" />
+
+            <include layout="@layout/file_list_fragment_content_include" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include layout="@layout/file_list_fragment_bottom_bar_include"/>
+        <include layout="@layout/file_list_fragment_speed_dial_include" />
+        <com.bdadev.filemanager.view.NavigationFrameLayout
+            android:id="@+id/navigationFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="?colorSurface"
+            android:fitsSystemWindows="true" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</merge>

@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import com.bdadev.filemanager.R
 import com.bdadev.filemanager.application.application
+import com.bdadev.filemanager.databinding.FragmentFileListBinding
 import com.bdadev.filemanager.dialog.ShowRequestAllFilesAccessRationaleDialogFragment
 import com.bdadev.filemanager.dialog.ShowRequestStoragePermissionRationaleDialogFragment
 import com.bdadev.filemanager.util.ShowRequestStoragePermissionInSettingsRationaleDialogFragment
@@ -28,8 +29,7 @@ import com.bdadev.filemanager.view_model.FileListViewModel
 
 class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialogFragment.Listener,
     ShowRequestStoragePermissionInSettingsRationaleDialogFragment.Listener,
-    ShowRequestAllFilesAccessRationaleDialogFragment.Listener
-{
+    ShowRequestAllFilesAccessRationaleDialogFragment.Listener {
     private val viewModel by viewModels { { FileListViewModel() } }
     private val requestStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(), this::onRequestStoragePermissionResult
@@ -41,13 +41,15 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
     private val requestAllFilesAccessLauncher = registerForActivityResult(
         RequestAllFilesAccessContract(), this::onRequestAllFilesAccessResult
     )
+    private lateinit var binding: Binding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_file_list, container, false)
-    }
+    ): View = Binding.inflate(inflater, container, false)
+        .also { binding = it }
+        .root
 
     override fun onResume() {
         super.onResume()
@@ -114,6 +116,7 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
         override fun parseResult(resultCode: Int, intent: Intent?): Boolean =
             Environment.isExternalStorageManager()
     }
+
     private fun onRequestStoragePermissionInSettingsResult(isGranted: Boolean) {
         if (isGranted) {
             viewModel.isStorageAccessRequested = false
@@ -142,5 +145,22 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
 
     override fun requestAllFilesAccess() {
         requestAllFilesAccessLauncher.launch(Unit)
+    }
+    private class Binding private constructor(
+        val root: View,
+    ) {
+        companion object {
+            fun inflate(
+                inflater: LayoutInflater,
+                root: ViewGroup?,
+                attachToRoot: Boolean
+            ): Binding {
+                val binding = FragmentFileListBinding.inflate(inflater, root, attachToRoot)
+                val bindingRoot = binding.root
+                return Binding(bindingRoot)
+            }
+
+        }
+
     }
 }
