@@ -7,8 +7,6 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorAppBarSurface"
-        android:theme="?actionBarTheme"
         app:liftOnScroll="true"
         app:liftOnScrollTargetViewId="@id/recyclerView">
         <FrameLayout
@@ -32,7 +30,6 @@
                 android:layout_height="?actionBarSize"
                 android:paddingStart="@dimen/file_list_toolbar_padding_start"
                 android:paddingEnd="@dimen/file_list_toolbar_padding_end_with_overflow"
-                android:background="?colorAppBarSurface"
                 android:visibility="gone"
                 app:navigationIcon="@drawable/close_icon_control_normal_24dp"
                 app:popupTheme="?actionBarPopupTheme" />

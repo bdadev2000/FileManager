@@ -1,3 +1,8 @@
+
+
+
+
+
 package com.bdadev.filemanager.view
 
 import android.content.Context
@@ -10,6 +15,7 @@ import androidx.annotation.AttrRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.ColorUtils
 import com.bdadev.filemanager.util.activity
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.MaterialShapeDrawableAccessor
 import com.google.android.material.shape.MaterialShapeUtils

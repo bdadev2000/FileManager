@@ -39,7 +39,7 @@
             android:textAppearance="?textAppearanceListItem"
             android:visibility="gone"
             app:drawableTopCompat="@drawable/file_icon_240dp" />
-        <com.bdadev.filemanager.widget.ThemedSwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.ThemedSwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -51,6 +51,6 @@
                 android:clipToPadding="false"
                 android:fitsSystemWindows="true"
                 tools:listitem="@layout/file_item" />
-        </com.bdadev.filemanager.widget.ThemedSwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.ThemedSwipeRefreshLayout>
     </com.bdadev.filemanager.view.CoordinatorScrollingFrameLayout>
 </merge>

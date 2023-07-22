@@ -13,11 +13,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.updatePaddingRelative
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bdadev.filemanager.R
 import com.bdadev.filemanager.application.application
+import com.bdadev.filemanager.databinding.FileListFragmentAppBarIncludeBinding
+import com.bdadev.filemanager.databinding.FileListFragmentBottomBarIncludeBinding
+import com.bdadev.filemanager.databinding.FileListFragmentContentIncludeBinding
+import com.bdadev.filemanager.databinding.FileListFragmentIncludeBinding
+import com.bdadev.filemanager.databinding.FileListFragmentSpeedDialIncludeBinding
 import com.bdadev.filemanager.databinding.FragmentFileListBinding
 import com.bdadev.filemanager.dialog.ShowRequestAllFilesAccessRationaleDialogFragment
 import com.bdadev.filemanager.dialog.ShowRequestStoragePermissionRationaleDialogFragment
@@ -25,7 +37,13 @@ import com.bdadev.filemanager.util.ShowRequestStoragePermissionInSettingsRationa
 import com.bdadev.filemanager.util.checkSelfPermission
 import com.bdadev.filemanager.util.checkSelfPermissionCompat
 import com.bdadev.filemanager.util.viewModels
+import com.bdadev.filemanager.view.BreadcrumbLayout
+import com.bdadev.filemanager.view.CoordinatorAppBarLayout
+import com.bdadev.filemanager.view.PersistentBarLayout
+import com.bdadev.filemanager.view.PersistentDrawerLayout
 import com.bdadev.filemanager.view_model.FileListViewModel
+import com.google.android.material.appbar.AppBarLayout
+import com.leinardi.android.speeddial.SpeedDialView
 
 class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialogFragment.Listener,
     ShowRequestStoragePermissionInSettingsRationaleDialogFragment.Listener,
@@ -50,6 +68,7 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
     ): View = Binding.inflate(inflater, container, false)
         .also { binding = it }
         .root
+
 
     override fun onResume() {
         super.onResume()
@@ -148,6 +167,22 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
     }
     private class Binding private constructor(
         val root: View,
+        val drawerLayout: DrawerLayout? = null,
+        val persistentDrawerLayout: PersistentDrawerLayout? = null,
+        val persistentBarLayout: PersistentBarLayout,
+        val appBarLayout: CoordinatorAppBarLayout,
+        val toolbar: Toolbar,
+        val overlayToolbar: Toolbar,
+        val breadcrumbLayout: BreadcrumbLayout,
+        val contentLayout: ViewGroup,
+        val progress: ProgressBar,
+        val errorText: TextView,
+        val emptyView: View,
+        val swipeRefreshLayout: SwipeRefreshLayout,
+        val recyclerView: RecyclerView,
+        val bottomBarLayout: ViewGroup,
+        val bottomToolbar: Toolbar,
+        val speedDialView: SpeedDialView
     ) {
         companion object {
             fun inflate(
@@ -157,7 +192,21 @@ class FileListFragment : Fragment(), ShowRequestStoragePermissionRationaleDialog
             ): Binding {
                 val binding = FragmentFileListBinding.inflate(inflater, root, attachToRoot)
                 val bindingRoot = binding.root
-                return Binding(bindingRoot)
+                val includeBinding = FileListFragmentIncludeBinding.bind(bindingRoot)
+                val appBarBinding = FileListFragmentAppBarIncludeBinding.bind(bindingRoot)
+                val contentBinding = FileListFragmentContentIncludeBinding.bind(bindingRoot)
+                val bottomBarBinding = FileListFragmentBottomBarIncludeBinding.bind(bindingRoot)
+                val speedDialBinding = FileListFragmentSpeedDialIncludeBinding.bind(bindingRoot)
+                return Binding(
+                    bindingRoot, includeBinding.drawerLayout,null,
+                    includeBinding.persistentBarLayout, appBarBinding.appBarLayout,
+                    appBarBinding.toolbar, appBarBinding.overlayToolbar,
+                    appBarBinding.breadcrumbLayout, contentBinding.contentLayout,
+                    contentBinding.progress, contentBinding.errorText, contentBinding.emptyView,
+                    contentBinding.swipeRefreshLayout, contentBinding.recyclerView,
+                    bottomBarBinding.bottomBarLayout, bottomBarBinding.bottomToolbar,
+                    speedDialBinding.speedDialView
+                )
             }
 
         }

@@ -1,4 +1,9 @@
-package com.bdadev.filemanager.widget;
+/*
+ * Copyright (c) 2018 Hai Zhang <dreaming.in.code.zh@gmail.com>
+ * All Rights Reserved.
+ */
+
+package androidx.swiperefreshlayout.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,10 +14,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bdadev.filemanager.util.ContextCompatKt;
 import com.bdadev.filemanager.util.ContextExtensionsKt;
+
 
 public class ThemedSwipeRefreshLayout extends SwipeRefreshLayout {
     public ThemedSwipeRefreshLayout(@NonNull Context context) {
