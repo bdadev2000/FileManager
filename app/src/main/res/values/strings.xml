@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">FileManager</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="storage_permission_rationale_message">App needs permission to access files. Please click “ALLOW” in the upcoming system dialog.</string>
+    <string name="open_settings">App needs permission to access files. Please click “ALLOW” in the upcoming system dialog.</string>
+    <string name="all_files_access_rationale_message">App needs access to manage all files. Please allow the access in the upcoming system setting.</string>
+    <string name="activity_not_found">No application found to handle this action</string>
+    <string name="file_list_breadcrumb_action_copy_path">Copy path</string>
+    <string name="file_list_breadcrumb_action_open_in_new_task">Open in new window</string>
+    <string name="file_list_empty">No files</string>
+
 </resources>

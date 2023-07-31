@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id  'kotlin-parcelize'
+
 }
 
 android {
@@ -9,14 +11,18 @@ android {
 
     defaultConfig {
         applicationId "com.bdadev.filemanager"
-        minSdk 24
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
+        resValue 'string', 'app_provider_authority', applicationId + '.app_provider'
 
+    }
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -42,7 +48,22 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'com.drakeet.drawer:drawer:1.0.3'
+    implementation 'me.zhanghai.android.foregroundcompat:library:1.0.2'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.leinardi.android:speed-dial:3.3.0'
 
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation ('com.hierynomus:smbj:0.11.5') {
+        // org.bouncycastle:bcprov-jdk15on uses bytecode version unsupported by Jetifier, so use
+        // org.bouncycastle:bcprov-jdk15to18 instead.
+        exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    }
+    implementation ('com.hierynomus:sshj:0.35.0') {
+        // org.bouncycastle:bcprov-jdk15on uses bytecode version unsupported by Jetifier, so use
+        // org.bouncycastle:bcprov-jdk15to18 instead.
+        exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    }
+    implementation 'com.google.android.material:material:1.9.0'
 
 }
